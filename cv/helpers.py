@@ -67,13 +67,13 @@ def gaussian_pyramid(image):
     """
     Return the gaussian_pyramid for the image
     """
-    return cv2.pyrdown(image)
+    return cv2.pyrDown(image)
 
 def laplacian_pyramid(image):
     """
     Return the laplacian pyramid for the image
     """
-    return cv2.pyrup(image)
+    return cv2.pyrUp(image)
 
 def buildPyramid(image, maxlevel=5):
     """
@@ -131,3 +131,12 @@ def four_points_transform(image, pts):
     warped = cv2.warpPerspective(image, M, (maxWidth, maxHeight))
 
     return warped
+
+def exit_img_show():
+    """
+    The method is used to end image display
+    """
+    k = cv2.waitKey(0) & 0xFF
+
+    if k == 27:
+        cv2.destroyAllWindows()

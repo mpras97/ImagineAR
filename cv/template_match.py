@@ -56,6 +56,7 @@ def find_img_pyramid_template(template, image, algo=cv2.TM_CCORR_NORMED):
     """
 
     TEMP_THRESHOLD = 0.9
+    IMG_CONVERT_THRESHOLD = 255
 
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     gray_template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
@@ -63,30 +64,40 @@ def find_img_pyramid_template(template, image, algo=cv2.TM_CCORR_NORMED):
     image_pyramid = buildPyramid(gray_image)
     template_pyramid = buildPyramid(gray_template)
 
+    results = []
+
     for i in range(len(image_pyramid)):
 
         local_img = image_pyramid[i]
         local_template = template_pyramid[i]
 
-        if i == 0:
-            result = cv2.matchTemplate(local_img, local_template, algo)
+        local_template_th = cv2.adaptiveThreshold(local_template, IMG_CONVERT_THRESHOLD, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+        local_img_th = cv2.adaptiveThreshold(local_img, IMG_CONVERT_THRESHOLD, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
 
-            T, threshed = cv2.threshold(result, TEMP_THRESHOLD, 1., cv2.THRESH_TOZERO)
-            results.append(threshed)
-        else:
-            mask = gaussian_pyramid(threshed)
+        # if i == 0:
 
-            edged = cv2.Canny(mask, ED_MIN_VAL, ED_MAX_VAL)
-            contours = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]
+            # cv2.imshow("th", th)
+            # exit_img_show()
 
-            tH, tW = local_template.shape[:2]
-            for cnt in contours:
-                x, y, w, h = cv2.boundingRect(cnt)
-                src = local_img[y:y+h+tH, x:x+w+tW]
-                result = cv2.matchTemplate(src, local_template, algo)
+        result = cv2.matchTemplate(local_img_th, local_template_th, algo)
 
-                T, threshed = cv2.threshold(result, TEMP_THRESHOLD, 1., cv2.THRESH_TOZERO)
-                results.append(threshed)
+        (_, maxVal, _, maxLoc) = cv2.minMaxLoc(result)
+
+            # cv2.imshow("a", th)
+            # exit_img_show()
+            # results.append(threshed)
+        # else:
+        #     # mask = gaussian_pyramid(threshed)
+
+        #     # for m in mask:
+        #     #     cv2.imshow("m", m)
+
+        #     #     exit_img_show()
+
+        #     edged = cv2.Canny(mask, ED_MIN_VAL, ED_MAX_VAL)
+        #     contours = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]
+
+        #     tH, tW = local_template.shape[:2]
 
     img_threshold = max(results)
 
