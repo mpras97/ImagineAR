@@ -19,8 +19,12 @@ def find_normal_template(template, image, algo=cv2.TM_CCORR_NORMED):
 
     found = None
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+    template = cv2.Canny(template, ED_MIN_VAL, ED_MAX_VAL)
 
     TEMP_THRESHOLD = 0.25
+
+    (tH, tW) = template.shape[:2]
 
     for scale in np.linspace(SCALE_START, SCALE_END, SAMPLES_TO_GENERATE)[::-1]:
         resized = resize(gray, width= int(gray.shape[1] * scale))
@@ -31,6 +35,7 @@ def find_normal_template(template, image, algo=cv2.TM_CCORR_NORMED):
             break
 
         edged = cv2.Canny(resized, ED_MIN_VAL, ED_MAX_VAL)
+
         result = cv2.matchTemplate(edged, template, algo)
 
         (_, maxVal, _, maxLoc) = cv2.minMaxLoc(result)
@@ -38,7 +43,7 @@ def find_normal_template(template, image, algo=cv2.TM_CCORR_NORMED):
         if found is None or maxVal > found[0]:
             found = (maxVal, maxLoc, r)
 
-    if found > TEMP_THRESHOLD:
+    if found[0] > TEMP_THRESHOLD:
         return True
 
     return False
@@ -85,7 +90,7 @@ def find_img_pyramid_template(template, image, algo=cv2.TM_CCORR_NORMED):
 
     img_threshold = max(results)
 
-    (_, maxVal, _ maxLoc) = cv2.minMaxLoc(img_threshold)
+    (_, maxVal, _, maxLoc) = cv2.minMaxLoc(img_threshold)
     if maxVal > TEMP_THRESHOLD:
         return True
 

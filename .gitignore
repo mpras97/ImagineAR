@@ -1,0 +1,5 @@
+templates/
+test_images/
+test_file.py
+
+__pycache__/
