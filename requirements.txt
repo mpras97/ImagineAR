@@ -4,3 +4,6 @@ opencv-contrib-python==4.2.0.34
 numpy==1.18.3
 Django==3.0.6
 django-cors-headers==3.3.0
+asgiref==3.2.7
+pytz==2020.1
+sqlparse==0.3.1
