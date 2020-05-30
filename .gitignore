@@ -3,3 +3,5 @@ test_images/
 test_file.py
 
 __pycache__/
+.idea
+venv
