@@ -3,7 +3,7 @@ import Webcam from "react-webcam";
 import axios from 'axios';
 import batman from '../batman.obj'
 import {OBJModel} from 'react-3d-viewer'
-
+import 'react-html5-camera-photo/build/css/index.css';
 
 const videoConstraints = {
   width: 1280,
@@ -15,15 +15,38 @@ const WebcamCapture = () => {
   const webcamRef = React.useRef(null);
   const [isObject, setIsObject] = React.useState(false);
 
-  const capture = React.useCallback(
+  function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+    const capture = React.useCallback(
     () => {
       const imageSrc = webcamRef.current.getScreenshot();
       console.log(imageSrc)
-
-      axios({
-        method: 'post',
-        url: 'http://localhost:8000/camera/image/',
-        data: {
+        axios({
+          method: 'post',
+          url: 'http://localhost:8000/camera/image/',
+          data: {
           image: imageSrc,
         }
       })
@@ -39,6 +62,7 @@ const WebcamCapture = () => {
     [webcamRef]
   );
   console.log(isObject);
+
 
   return (
     <>{isObject ?

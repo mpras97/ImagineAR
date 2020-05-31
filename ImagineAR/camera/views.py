@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
+import os
+import base64
 
 from .models import Template
 from .serializers import UserSerializer, UserSerializerWithToken, TemplateSerializer
@@ -15,18 +17,18 @@ from .serializers import UserSerializer, UserSerializerWithToken, TemplateSerial
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
-@csrf_exempt
-def image(request):
-    print(request)
-    if request.method == 'POST':
-        data = {
-            'name': ''
-        }
-    else:
-        data = {
-            'error': 'error'
-        }
-    return JsonResponse(data)
+# @csrf_exempt
+# def image(request):
+#     print(request)
+#     if request.method == 'POST':
+#         data = {
+#             'name': ''
+#         }
+#     else:
+#         data = {
+#             'error': 'error'
+#         }
+#     return JsonResponse(data)
 
 
 @api_view(['GET'])
@@ -94,3 +96,21 @@ class TemplateView(viewsets.ModelViewSet):
             return Response(serializer.data)
         except Template.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class CapturePhoto(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+
+    def capture_photo(self, request):
+        print(request.data['image'])
+        image = request.data['image']
+        block = image.split(";")
+        contentType = block[0].split(":")[1]
+        realData = block[1].split(",")[1];
+        import base64
+        imgdata = base64.b64decode(realData)
+        filename = 'some_image.jpg'
+        with open(filename, 'wb') as f:
+            f.write(imgdata)
+        return Response(status=status.HTTP_200_OK)
+
