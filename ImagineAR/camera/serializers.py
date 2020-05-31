@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
+from camera.models import Template
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,6 +9,30 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username',)
+
+
+class TemplateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Template
+        fields = '__all__'
+
+    def create(self, validated_data):
+        """
+        Overwriting create method to add client and created by from backend.
+        (Not a part of API)
+        :param validated_data: Validated data from serializer.
+        :return: Validated data with context of client and created by.
+        """
+        print(validated_data)
+        # print(self.context['request'].__dict__)
+        # print(self.context['request']['_data'].get('username'))
+        # print(self.context['request']['_data']['username'])
+        # print(self.context['request'].TokenUser)
+        # validated_data['user'] = User.objects.get(
+        #         id=self.context['request'].user.id)
+        # user = User.objects.get(username=validated_data[])
+        return super(TemplateSerializer, self).create(validated_data)
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):

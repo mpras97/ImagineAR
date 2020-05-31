@@ -66,6 +66,8 @@ REST_FRAMEWORK = {
     ),
 }
 
+# REST_USE_JWT = True
+
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'imaginear.utils.my_jwt_response_handler'
 }

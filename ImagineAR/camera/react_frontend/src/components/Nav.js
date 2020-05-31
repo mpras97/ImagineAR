@@ -1,16 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Navbar from "react-bootstrap/Navbar";
-import { Switch, Route, Link } from 'react-router-dom';
-import { default as NavBootstrap} from "react-bootstrap/Nav";
 import '../App.css';
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Container from "react-bootstrap/Container";
-import {BackgroundImage, Image} from "react-image-and-background-image-fade";
-import amsterdam from "../amsterdam-5211981_1920.jpg"
-
-
-
 
 function Nav(props) {
 

@@ -4,9 +4,9 @@ import '../App.css';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { Switch, Route, Link } from 'react-router-dom';
-import NavItem from "react-bootstrap/NavItem";
 import CaptureImage from "./CaptureImage";
 import Dropzone from "./FileUpload";
+import Home from "./Home";
 
 
 function UserProfile(props) {
@@ -14,17 +14,15 @@ function UserProfile(props) {
   const navBar = (
     <>
     <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="#home">Imagine AR</Navbar.Brand>
+      <Navbar.Brand as={Link} to="/">Imagine AR</Navbar.Brand>
       <Nav className="mr-auto">
-        {/*<NavItem eventkey={1} href="/">*/}
           <Nav.Link as={Link} to="/capture" >Capture Image</Nav.Link>
-          <Nav.Link href="/upload">Upload Templates</Nav.Link>
+          <Nav.Link as={Link} to="/upload">Upload Templates</Nav.Link>
           <Nav.Link onClick={props.handle_logout}>logout</Nav.Link>
-        {/*</NavItem>*/}
       </Nav>
     </Navbar>
     <Switch>
-    <Route exact path='/' />
+    <Route exact path='/' component={Home}/>
     <Route path='/capture' component={CaptureImage}/>
     <Route path='/upload' component={Dropzone}/>
     <Route render={function () {
@@ -33,6 +31,7 @@ function UserProfile(props) {
     </Switch>
     </>
   )
+
   return (
     <>
       {navBar}

@@ -155,6 +155,7 @@ class App extends Component {
       data: data
     }).then(response => {
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('username', response.data.user.username);
         this.setState({
           logged_in: true,
           displayed_form: '',
@@ -175,7 +176,9 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json);
         localStorage.setItem('token', json.token);
+        localStorage.setItem('username', json.username);
         this.setState({
           logged_in: true,
           displayed_form: '',
@@ -186,6 +189,7 @@ class App extends Component {
 
   handle_logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     this.setState({ logged_in: false, username: '' });
   };
 

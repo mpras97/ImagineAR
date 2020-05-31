@@ -21,8 +21,6 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      // <Container className="p-3">
-      //   <Jumbotron>
         <>
           <form onSubmit={e => this.props.handle_login(e, this.state)}>
             <h4>Log In</h4>
@@ -43,8 +41,6 @@ class LoginForm extends React.Component {
             <input type="submit" />
           </form>
         </>
-        // </Jumbotron>
-      // </Container>
     );
   }
 }
