@@ -16,11 +16,11 @@ function UserProfile(props) {
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="#home">Imagine AR</Navbar.Brand>
       <Nav className="mr-auto">
-        <NavItem eventkey={1} href="/">
+        {/*<NavItem eventkey={1} href="/">*/}
           <Nav.Link as={Link} to="/capture" >Capture Image</Nav.Link>
           <Nav.Link href="/upload">Upload Templates</Nav.Link>
           <Nav.Link onClick={props.handle_logout}>logout</Nav.Link>
-        </NavItem>
+        {/*</NavItem>*/}
       </Nav>
     </Navbar>
     <Switch>
