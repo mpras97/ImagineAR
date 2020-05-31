@@ -53,7 +53,12 @@ const WebcamCapture = () => {
       .then( response => {
           if ( response.data ) {
             console.log(response.data);
-            setIsObject(true);
+            if (response.data.present) {
+              setIsObject(true)
+            }
+            else {
+              alert("No template found for the captured image")
+            }
           }
         }
       )

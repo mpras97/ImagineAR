@@ -15,30 +15,53 @@ function Dropzone(props) {
     </li>
   ));
 
+  // const API_KEY ="A0wnq0N1S6qMEsyiuzpzUz"
+
+  // const uploadUrl = "https://www.filestackapi.com/api/store/S3?key=${API_KEY}"
+
   function handleClick() {
+    let formData = new FormData();
     acceptedFiles.map(file => {
-        let formData = new FormData();
-        formData.append('name', file.name);
         formData.append('username', localStorage.getItem('username'));
         if (['image/jpeg', 'image/png'].indexOf(file.type) !== -1 ) {
+
+          formData.append('name', file.name);
           formData.append("template", file);
         } else
         {
-          formData.append("material", file);
+          formData.append("model", file);
         }
-        axios.post('http://localhost:8000/camera/template/', formData, {
-          headers: {
-            'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
-          },
-        })
-          .then(response => {
-              if (response.data) {
-                console.log(response.data);
-              }
-            }
-          )
-          .catch(error => console.log(error))
+        // console.log(file)
+        // console.log(formData2)
+        // axios.post(uploadUrl, formData2)
+        //   .then(response => {
+        //     if (response.data ) {
+        //       console.log(response.data);
+        //     }
+        //   })
+        //   .catch(error => console.log(error))
+        // axios.post('http://localhost:8000/camera/template/', formData, {
+        //   headers: {
+        //     'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
+        //   },
+        // })
+        //   .then(response => {
+        //       if (response.data) {
+        //         console.log(response.data);
+        //       }
+        //     }
+        //   )
+        //   .catch(error => console.log(error))
       });
+    axios.post('http://localhost:8000/camera/template/', formData, {
+      headers: {
+        'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
+      }
+    })
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch( error => console.log(error))
   }
 
 

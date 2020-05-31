@@ -7,8 +7,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
+from camera.models import *
 import os
 import base64
+import cv2
+from cv.template_match import *
+from shutil import copy
 
 from .models import Template
 from .serializers import UserSerializer, UserSerializerWithToken, TemplateSerializer
@@ -102,7 +106,7 @@ class CapturePhoto(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
     def capture_photo(self, request):
-        print(request.data['image'])
+        # print(request.data['image'])
         image = request.data['image']
         block = image.split(";")
         contentType = block[0].split(":")[1]
@@ -112,5 +116,30 @@ class CapturePhoto(viewsets.ModelViewSet):
         filename = 'some_image.jpg'
         with open(filename, 'wb') as f:
             f.write(imgdata)
-        return Response(status=status.HTTP_200_OK)
+
+        req_temp = False
+
+        dest = "/Users/mayankprasoon/personal/ImagineAR/ImagineAR/camera/react_frontend/src/batman.obj"
+
+        for temp in Template.objects.all():
+            print("In loop")
+            image = cv2.imread(filename)
+            template = cv2.imread(temp.template.name)
+            if find_normal_template(template, image):
+                print("In if")
+                req_temp = True
+
+                print(temp.model)
+
+                if temp.model:
+                    print("H2")
+                    # print(tem)
+                    print(temp.model.name)
+                    print(os.path.isfile(temp.model.name))
+                    print(os.path.isfile(dest))
+                    copy(temp.model.name, dest)
+                break
+
+        print(req_temp)
+        return Response({'present': req_temp}, status=status.HTTP_200_OK)
 
