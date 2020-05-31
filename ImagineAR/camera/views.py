@@ -106,7 +106,7 @@ class CapturePhoto(viewsets.ModelViewSet):
         image = request.data['image']
         block = image.split(";")
         contentType = block[0].split(":")[1]
-        realData = block[1].split(",")[1];
+        realData = block[1].split(",")[1]
         import base64
         imgdata = base64.b64decode(realData)
         filename = 'some_image.jpg'
