@@ -18,28 +18,26 @@ function UserProfile(props) {
       <Nav className="mr-auto">
         <NavItem eventkey={1} href="/">
           <Nav.Link as={Link} to="/capture" >Capture Image</Nav.Link>
+          <Nav.Link href="/upload">Upload Templates</Nav.Link>
+          <Nav.Link onClick={props.handle_logout}>logout</Nav.Link>
         </NavItem>
-        <Nav.Link href="/upload">Upload Templates</Nav.Link>
-        <Nav.Link onClick={props.handle_logout}>logout</Nav.Link>
       </Nav>
     </Navbar>
     <Switch>
-      <Route exact path='/' />
-      <Route path='/capture' component={CaptureImage}/>
-      <Route path='/upload' component={Dropzone}/>
-      <Route render={function () {
-        return <p>Not found</p>
-      }} />
+    <Route exact path='/' />
+    <Route path='/capture' component={CaptureImage}/>
+    <Route path='/upload' component={Dropzone}/>
+    <Route render={function () {
+      return <p>Not found</p>
+    }} />
     </Switch>
     </>
   )
-
-    return (
-      <>
-        {navBar}
-
-      </>
-    );
+  return (
+    <>
+      {navBar}
+    </>
+  );
 }
 
 export default UserProfile;
