@@ -13,6 +13,7 @@
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
+    "react-html5-camera-photo": "^1.5.4",
     "react-image-and-background-image-fade": "^1.0.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",

@@ -29,10 +29,7 @@ function Dropzone(props) {
           formData.append("template", file);
         } else
         {
-          formData.append("material", file);
-        }
-        if (file.type === "model/obj") {
-          formData.append("model", file)
+          formData.append("model", file);
         }
         // console.log(file)
         // console.log(formData2)
