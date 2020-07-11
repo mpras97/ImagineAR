@@ -140,3 +140,9 @@ def exit_img_show():
 
     if k == 27:
         cv2.destroyAllWindows()
+
+def find_feature(image):
+    """
+    Applies Orb descriptor to find the features in the image
+    """
+    pass
